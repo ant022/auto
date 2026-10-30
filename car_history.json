@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-30T20:17:43+00:00"
+    "generated_at": "2026-10-30T20:23:06+00:00"
   },
   "cars": {
     "3462642": {
@@ -27,7 +27,7 @@
       "engine": "2.0 206kW",
       "price_note": "KM 0% (käibemaksu ei lisandu)",
       "saved_count": 13,
-      "last_seen": "2026-10-30T20:17:34+00:00",
+      "last_seen": "2026-10-30T20:22:47+00:00",
       "status": "active",
       "latest_price": 15900,
       "list_price": null
@@ -56,11 +56,41 @@
       "price_note": "KM 0% (käibemaksu ei lisandu) · sisaldab registreerimistasu",
       "saved_count": 2,
       "last_seen": "2026-10-30T20:05:45+00:00",
-      "error_count": 1,
+      "error_count": 2,
       "last_error": "HTTP 403, blocked=True, page has no listing title",
       "status": "active",
       "latest_price": 13750,
       "list_price": 14000
+    },
+    "4365062": {
+      "id": "4365062",
+      "entries": [
+        {
+          "t": "2026-10-30T20:22:58+00:00",
+          "p": 17950,
+          "l": 18500
+        }
+      ],
+      "url": "https://www.auto24.ee/soidukid/4365062",
+      "note": "",
+      "title": "BMW 520 d Sportline 2.0 140kW",
+      "img": "https://img13.img-bcg.eu/h30/d8e8c9/s1/207007107.jpg",
+      "year": "2019",
+      "mileage_km": 152000,
+      "fuel": "diisel",
+      "gearbox": "automaat",
+      "location": "Pärnu, Eesti",
+      "body": "universaal",
+      "drive": "tagavedu",
+      "engine": "2.0 140kW",
+      "price_note": "KM 0% (käibemaksu ei lisandu)",
+      "saved_count": 4,
+      "last_seen": "2026-10-30T20:22:58+00:00",
+      "error_count": 0,
+      "last_error": "",
+      "status": "active",
+      "latest_price": 17950,
+      "list_price": 18500
     }
   }
 }
