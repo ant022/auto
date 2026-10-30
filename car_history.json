@@ -1,0 +1,45 @@
+{
+  "meta": {
+    "generated_at": "2026-10-30T20:05:54+00:00"
+  },
+  "cars": {
+    "3462642": {
+      "id": "3462642",
+      "entries": [],
+      "url": "https://www.auto24.ee/soidukid/3462642",
+      "note": "Skoda Superb Combi L&K",
+      "error_count": 1,
+      "last_error": "HTTP 403, blocked=True, page has no listing title"
+    },
+    "4364196": {
+      "id": "4364196",
+      "entries": [
+        {
+          "t": "2026-10-30T20:05:45+00:00",
+          "p": 13750,
+          "l": 14000
+        }
+      ],
+      "url": "https://www.auto24.ee/soidukid/4364196",
+      "note": "",
+      "title": "Kia Ceed EX NAVI 1.4 TGDI 103kW",
+      "img": "https://img13.img-bcg.eu/h30/03979e/s1/206989553.jpg",
+      "year": "2019",
+      "mileage_km": 78000,
+      "fuel": "bensiin",
+      "gearbox": "automaat (7 DCT)",
+      "location": "Eesti",
+      "body": "luukpära",
+      "drive": "esivedu",
+      "engine": "1.4 TGDI 103kW",
+      "price_note": "KM 0% (käibemaksu ei lisandu) · sisaldab registreerimistasu",
+      "saved_count": 2,
+      "last_seen": "2026-10-30T20:05:45+00:00",
+      "error_count": 0,
+      "last_error": "",
+      "status": "active",
+      "latest_price": 13750,
+      "list_price": 14000
+    }
+  }
+}
