@@ -130,6 +130,7 @@ const getToken = () => store.get("gh_token");
 
 async function gh(path, opts = {}) {
   const r = await fetch("https://api.github.com/repos/" + getRepo() + path, {
+    cache: "no-store",
     ...opts,
     headers: { Accept: "application/vnd.github+json", Authorization: "Bearer " + getToken(),
                "Content-Type": "application/json", ...(opts.headers || {}) },
@@ -139,7 +140,9 @@ async function gh(path, opts = {}) {
     const hint = r.status === 401 ? "Token rejected (expired or mistyped)."
       : r.status === 403 || r.status === 404 ? "Token lacks permission for this repo (needs Contents and Actions read/write), or the repo name is wrong."
       : "";
-    throw new Error(`GitHub said ${r.status}. ${hint} ${detail}`.trim());
+    const err = new Error(`GitHub said ${r.status}. ${hint} ${detail}`.trim());
+    err.status = r.status;
+    throw err;
   }
   return r.status === 204 ? null : r.json();
 }
@@ -166,15 +169,20 @@ async function loadAll() {
 }
 
 /* ---------- editing cars.json through the GitHub API ---------- */
-async function saveConfig(mutate, message) {
-  const cur = await gh(`/contents/cars.json?ref=${BRANCH}`);
+async function saveConfig(mutate, message, retry = true) {
+  const cur = await gh(`/contents/cars.json?ref=${BRANCH}&t=${Date.now()}`);
   const cfg = JSON.parse(b64dec(cur.content));
   cfg.cars = cfg.cars || [];
   mutate(cfg);
-  await gh("/contents/cars.json", {
-    method: "PUT",
-    body: JSON.stringify({ message, content: b64enc(JSON.stringify(cfg, null, 2) + "\n"), sha: cur.sha, branch: BRANCH }),
-  });
+  try {
+    await gh("/contents/cars.json", {
+      method: "PUT",
+      body: JSON.stringify({ message, content: b64enc(JSON.stringify(cfg, null, 2) + "\n"), sha: cur.sha, branch: BRANCH }),
+    });
+  } catch (e) {
+    if (e.status === 409 && retry) return saveConfig(mutate, message, false);
+    throw e;
+  }
   config = cfg;
   render();
 }
@@ -206,7 +214,7 @@ $("addForm").addEventListener("submit", async ev => {
   if (needSetup()) return;
   $("addBtn").disabled = true; say("Saving…");
   try {
-    await saveConfig(cfg => cfg.cars.push({ url: "https://www.auto24.ee/soidukid/" + id, note: "" }), "Add car " + id);
+    await saveConfig(cfg => { if (!cfg.cars.some(c => listingId(c.url) === id)) cfg.cars.push({ url: "https://www.auto24.ee/soidukid/" + id, note: "" }); }, "Add car " + id);
     $("addUrl").value = "";
     say("Car added. Starting the first price check…", "ok");
     await triggerCheck(true);
