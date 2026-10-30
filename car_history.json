@@ -1,15 +1,36 @@
 {
   "meta": {
-    "generated_at": "2026-10-30T20:05:54+00:00"
+    "generated_at": "2026-10-30T20:17:43+00:00"
   },
   "cars": {
     "3462642": {
       "id": "3462642",
-      "entries": [],
+      "entries": [
+        {
+          "t": "2026-10-30T20:17:34+00:00",
+          "p": 15900
+        }
+      ],
       "url": "https://www.auto24.ee/soidukid/3462642",
-      "note": "Skoda Superb Combi L&K",
-      "error_count": 1,
-      "last_error": "HTTP 403, blocked=True, page has no listing title"
+      "note": "",
+      "error_count": 0,
+      "last_error": "",
+      "title": "Skoda Superb Combi L&K 4x4 2.0 206kW",
+      "img": "https://img13.img-bcg.eu/h30/8d9d2a/s1/206995373.jpg",
+      "year": "2016",
+      "mileage_km": 136900,
+      "fuel": "bensiin",
+      "gearbox": "automaat (DSG)",
+      "location": "Harjumaa, Eesti",
+      "body": "universaal",
+      "drive": "nelikvedu",
+      "engine": "2.0 206kW",
+      "price_note": "KM 0% (käibemaksu ei lisandu)",
+      "saved_count": 13,
+      "last_seen": "2026-10-30T20:17:34+00:00",
+      "status": "active",
+      "latest_price": 15900,
+      "list_price": null
     },
     "4364196": {
       "id": "4364196",
@@ -35,8 +56,8 @@
       "price_note": "KM 0% (käibemaksu ei lisandu) · sisaldab registreerimistasu",
       "saved_count": 2,
       "last_seen": "2026-10-30T20:05:45+00:00",
-      "error_count": 0,
-      "last_error": "",
+      "error_count": 1,
+      "last_error": "HTTP 403, blocked=True, page has no listing title",
       "status": "active",
       "latest_price": 13750,
       "list_price": 14000
