@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-10-30T20:23:06+00:00"
+    "generated_at": "2026-10-30T20:33:35+00:00"
   },
   "cars": {
     "3462642": {
@@ -27,7 +27,7 @@
       "engine": "2.0 206kW",
       "price_note": "KM 0% (käibemaksu ei lisandu)",
       "saved_count": 13,
-      "last_seen": "2026-10-30T20:22:47+00:00",
+      "last_seen": "2026-10-30T20:32:49+00:00",
       "status": "active",
       "latest_price": 15900,
       "list_price": null
@@ -56,7 +56,7 @@
       "price_note": "KM 0% (käibemaksu ei lisandu) · sisaldab registreerimistasu",
       "saved_count": 2,
       "last_seen": "2026-10-30T20:05:45+00:00",
-      "error_count": 2,
+      "error_count": 3,
       "last_error": "HTTP 403, blocked=True, page has no listing title",
       "status": "active",
       "latest_price": 13750,
@@ -85,12 +85,99 @@
       "engine": "2.0 140kW",
       "price_note": "KM 0% (käibemaksu ei lisandu)",
       "saved_count": 4,
-      "last_seen": "2026-10-30T20:22:58+00:00",
+      "last_seen": "2026-10-30T20:32:59+00:00",
       "error_count": 0,
       "last_error": "",
       "status": "active",
       "latest_price": 17950,
       "list_price": 18500
+    },
+    "4361553": {
+      "id": "4361553",
+      "entries": [
+        {
+          "t": "2026-10-30T20:33:11+00:00",
+          "p": 16999
+        }
+      ],
+      "url": "https://www.auto24.ee/soidukid/4361553",
+      "note": "",
+      "title": "Audi A4 Avant quattro 2.0 140kW",
+      "img": "https://img13.img-bcg.eu/h30/e2b99b/s1/206933002.jpg",
+      "year": "2018",
+      "mileage_km": 164500,
+      "fuel": "diisel",
+      "gearbox": "automaat",
+      "location": "Kehra, Eesti",
+      "body": "universaal",
+      "drive": "nelikvedu",
+      "engine": "2.0 140kW",
+      "price_note": "KM 0% (käibemaksu ei lisandu)",
+      "saved_count": 2,
+      "last_seen": "2026-10-30T20:33:11+00:00",
+      "error_count": 0,
+      "last_error": "",
+      "status": "active",
+      "latest_price": 16999,
+      "list_price": null
+    },
+    "4182311": {
+      "id": "4182311",
+      "entries": [
+        {
+          "t": "2026-10-30T20:33:22+00:00",
+          "p": 18999
+        }
+      ],
+      "url": "https://www.auto24.ee/soidukid/4182311",
+      "note": "",
+      "title": "Audi A4 2 x S-line 2.0 125kW",
+      "img": "https://img13.img-bcg.eu/h30/6190e5/s1/195124172.jpg",
+      "year": "2020",
+      "mileage_km": 100000,
+      "fuel": "bensiin",
+      "gearbox": "automaat",
+      "location": "Eesti",
+      "body": "universaal",
+      "drive": "esivedu",
+      "engine": "2.0 125kW",
+      "price_note": "KM 0% (käibemaksu ei lisandu)",
+      "saved_count": 13,
+      "last_seen": "2026-10-30T20:33:22+00:00",
+      "error_count": 0,
+      "last_error": "",
+      "status": "active",
+      "latest_price": 18999,
+      "list_price": null
+    },
+    "4308656": {
+      "id": "4308656",
+      "entries": [
+        {
+          "t": "2026-10-30T20:33:31+00:00",
+          "p": 17000
+        }
+      ],
+      "url": "https://www.auto24.ee/soidukid/4308656",
+      "note": "",
+      "title": "BMW 520 X Drive Sport Line 2.0 140kW",
+      "img": "https://img13.img-bcg.eu/h30/f6842f/s1/205833792.jpg",
+      "year": "2018",
+      "mileage_km": 187000,
+      "fuel": "diisel",
+      "gearbox": "automaat",
+      "location": "Eesti",
+      "body": "universaal",
+      "drive": "nelikvedu",
+      "engine": "2.0 140kW",
+      "price_note": "KM 0% (käibemaksu ei lisandu)",
+      "saved_count": 5,
+      "last_seen": "2026-10-30T20:33:31+00:00",
+      "error_count": 0,
+      "last_error": "",
+      "status": "active",
+      "latest_price": 17000,
+      "list_price": null
     }
   }
 }
