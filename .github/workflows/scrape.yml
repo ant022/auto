@@ -2,21 +2,30 @@ name: Daily car price check
 
 on:
   schedule:
-    - cron: "17 5 * * *"
-  workflow_dispatch:
+    - cron: "17 5 * * *"   # every day 05:17 UTC (about 07:17-08:17 in Tallinn)
+  workflow_dispatch:        # lets you run it manually from the Actions tab
+  push:                     # runs after cars are added or removed on the website
+    branches: [main]
+    paths: [cars.json]
 
 permissions:
   contents: write
 
+# For changes to cars.json: every new change restarts the wait below, so adding
+# several cars in a row ends in ONE price check. Daily and manual runs never cancel each other.
 concurrency:
-  group: scrape
-  cancel-in-progress: false
+  group: scrape-${{ github.event_name }}
+  cancel-in-progress: ${{ github.event_name == 'push' }}
 
 jobs:
   scrape:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
+      - name: Wait for more changes (only after cars.json was edited)
+        if: github.event_name == 'push'
+        run: sleep 90
+
       - uses: actions/checkout@v4
 
       - uses: actions/setup-python@v5
