@@ -216,8 +216,7 @@ $("addForm").addEventListener("submit", async ev => {
   try {
     await saveConfig(cfg => { if (!cfg.cars.some(c => listingId(c.url) === id)) cfg.cars.push({ url: "https://www.auto24.ee/soidukid/" + id, note: "" }); }, "Add car " + id);
     $("addUrl").value = "";
-    say("Car added. Starting the first price check…", "ok");
-    await triggerCheck(true);
+    say("Car added. The price check starts by itself about 2 minutes after your last change, so you can add more cars now.", "ok");
   } catch (e) { say(e.message, "bad"); }
   $("addBtn").disabled = false;
 });
