@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Car price tracker</title>
+<style>
+  :root {
+    --bg: #eef1f4; --card: #ffffff; --ink: #18212b; --muted: #66727f; --line: #d9dfe5;
+    --down: #0b7a53; --up: #c23b2a; --accent: #25536e;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #11161b; --card: #1a2128; --ink: #e8edf1; --muted: #93a0ac; --line: #2c3640;
+            --down: #4cc79a; --up: #f0806f; --accent: #7ab6d6; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font: 16px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width: 760px; margin: 0 auto; padding: 24px 16px 48px; }
+  h1 { font-size: 1.5rem; margin: 0 0 4px; letter-spacing: -0.01em; }
+  .sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 20px; }
+  .car { background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+         padding: 16px; margin-bottom: 14px; }
+  .top { display: flex; gap: 14px; align-items: flex-start; }
+  .top img { width: 112px; height: 76px; object-fit: cover; border-radius: 6px; flex: none; background: var(--line); }
+  .top .info { min-width: 0; flex: 1; }
+  .title { font-weight: 600; font-size: 1.05rem; color: var(--ink); text-decoration: none; display: block; }
+  .title:hover { text-decoration: underline; }
+  .facts { color: var(--muted); font-size: 0.88rem; margin-top: 2px; }
+  .price-row { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin: 14px 0 6px; }
+  .price { font-size: 2rem; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+  .delta { font-size: 0.95rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .delta.down { color: var(--down); } .delta.up { color: var(--up); } .delta.flat { color: var(--muted); font-weight: 400; }
+  .badge { font-size: 0.8rem; padding: 2px 8px; border-radius: 99px; border: 1px solid var(--up); color: var(--up); }
+  svg.chart { width: 100%; height: 130px; display: block; overflow: visible; }
+  .chart text { fill: var(--muted); font-size: 11px; }
+  .chart .grid { stroke: var(--line); stroke-width: 1; }
+  .chart .line { fill: none; stroke: var(--accent); stroke-width: 2; }
+  .chart .dot { fill: var(--accent); }
+  .meta { color: var(--muted); font-size: 0.82rem; margin-top: 8px; }
+  .empty, .err { background: var(--card); border: 1px dashed var(--line); border-radius: 10px; padding: 20px; color: var(--muted); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Car price tracker</h1>
+  <div class="sub" id="updated">Loading…</div>
+  <div id="list"></div>
+</main>
+
+<script>
+const fmtEur = n => n.toLocaleString("et-EE").replace(/\u00a0/g, " ") + " €";
+const fmtDate = iso => new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+function chart(entries, nowIso) {
+  const W = 600, H = 130, L = 8, R = 8, T = 10, B = 22;
+  const pts = entries.map(e => ({ t: new Date(e.t).getTime(), p: e.p }));
+  // extend the last price to "today" so a flat line is visible
+  const end = Math.max(new Date(nowIso).getTime(), pts[pts.length - 1].t);
+  const t0 = pts[0].t, span = Math.max(end - t0, 1);
+  const prices = pts.map(p => p.p);
+  let lo = Math.min(...prices), hi = Math.max(...prices);
+  if (lo === hi) { lo -= 500; hi += 500; }
+  const x = t => L + ((t - t0) / span) * (W - L - R);
+  const y = p => T + (1 - (p - lo) / (hi - lo)) * (H - T - B);
+  let d = `M${x(pts[0].t)},${y(pts[0].p)}`;
+  for (let i = 1; i < pts.length; i++) d += ` H${x(pts[i].t)} V${y(pts[i].p)}`;
+  d += ` H${x(end)}`;
+  const dots = pts.map(p => `<circle class="dot" cx="${x(p.t)}" cy="${y(p.p)}" r="3.5"/>`).join("");
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="Price history">
+    <line class="grid" x1="${L}" x2="${W - R}" y1="${y(hi)}" y2="${y(hi)}"/>
+    <line class="grid" x1="${L}" x2="${W - R}" y1="${y(lo)}" y2="${y(lo)}"/>
+    <text x="${L}" y="${y(hi) - 3}">${fmtEur(Math.round(hi))}</text>
+    <text x="${L}" y="${y(lo) + 12}">${fmtEur(Math.round(lo))}</text>
+    <path class="line" d="${d}"/>${dots}
+    <text x="${L}" y="${H - 4}">${fmtDate(pts[0].t)}</text>
+    <text x="${W - R}" y="${H - 4}" text-anchor="end">${fmtDate(end)}</text>
+  </svg>`;
+}
+
+function card(car, nowIso) {
+  const e = car.entries || [];
+  const facts = [car.year, car.mileage_km ? car.mileage_km.toLocaleString("et-EE").replace(/\u00a0/g, " ") + " km" : "",
+                 car.fuel, car.gearbox, car.location].filter(Boolean).map(esc).join(" · ");
+  let price = "—", delta = "";
+  if (e.length) {
+    const cur = e[e.length - 1].p, first = e[0].p, diff = cur - first;
+    price = fmtEur(cur);
+    delta = diff === 0 ? `<span class="delta flat">no change yet</span>`
+      : `<span class="delta ${diff < 0 ? "down" : "up"}">${diff < 0 ? "▼" : "▲"} ${fmtEur(Math.abs(diff))} since ${fmtDate(e[0].t)}</span>`;
+  }
+  const bad = car.status === "unavailable" ? `<span class="badge">listing unavailable</span>`
+            : car.status === "no_price" ? `<span class="badge">no price shown</span>`
+            : (car.error_count > 0 ? `<span class="badge">last check failed</span>` : "");
+  const meta = [car.last_seen ? "Last seen " + fmtDate(car.last_seen) : "", car.saved_count ? `saved by ${car.saved_count}` : ""]
+               .filter(Boolean).join(" · ");
+  return `<article class="car">
+    <div class="top">
+      ${car.img ? `<img src="${esc(car.img)}" alt="" loading="lazy">` : ""}
+      <div class="info">
+        <a class="title" href="${esc(car.url)}" target="_blank" rel="noopener">${esc(car.title || car.note || "Listing " + car.id)}</a>
+        <div class="facts">${facts}</div>
+      </div>
+    </div>
+    <div class="price-row"><span class="price">${price}</span>${delta}${bad}</div>
+    ${e.length ? chart(e, nowIso) : ""}
+    <div class="meta">${esc(meta)}</div>
+  </article>`;
+}
+
+fetch("car_history.json?v=" + Date.now())
+  .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+  .then(data => {
+    const cars = Object.values(data.cars || {});
+    const gen = data.meta?.generated_at;
+    document.getElementById("updated").textContent = gen ? "Last check: " + new Date(gen).toLocaleString("en-GB") : "";
+    document.getElementById("list").innerHTML = cars.length
+      ? cars.map(c => card(c, gen || new Date().toISOString())).join("")
+      : `<div class="empty">No cars yet. Add listing URLs to cars.json and run the workflow.</div>`;
+  })
+  .catch(() => {
+    document.getElementById("updated").textContent = "";
+    document.getElementById("list").innerHTML =
+      `<div class="err">No data yet. Run the "Daily car price check" workflow once from the Actions tab, then reload this page.</div>`;
+  });
+</script>
+</body>
+</html>
