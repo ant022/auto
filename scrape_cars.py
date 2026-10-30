@@ -27,14 +27,19 @@ EXTRACT_JS = """
     has_h1: !!h1,
     title: h1 ? (h1.childNodes[0]?.textContent || "").trim() : "",
     price_text: txt("tr.field-hind span.value"),
+    discount_text: txt("tr.field-soodushind span.value"),
     og_description: meta("og:description"),
     img: meta("og:image"),
     year_text: txt("tr.field-month_and_year span.value"),
     mileage_text: txt("tr.field-labisoit span.value"),
     fuel: txt("tr.field-kytus span.value"),
     gearbox: txt("tr.field-kaigukast_kaikudega span.value"),
-    location: txt(".other-info .-location b"),
+    location: (document.querySelector(".other-info .-location")?.textContent || "").replace(/^[^:]*:/, "").trim(),
     saved_count: document.querySelector(".bookmark")?.dataset.bookmarkCount || "",
+    body: txt("tr.field-keretyyp span.value"),
+    drive: txt("tr.field-vedavsild span.value"),
+    engine: txt("tr.field-mootorvoimsus span.value"),
+    price_note: Array.from(document.querySelectorAll("tr.field-hind .vat-value")).map(e => e.textContent.trim()).join(" · "),
   };
 }
 """
@@ -45,13 +50,21 @@ def digits(text):
     return int(d) if d else None
 
 
-def parse_price(info):
-    price = digits(info.get("price_text"))
-    if price:
-        return price
-    # Backup: og:description looks like "2016, bensiin, 136 900 km, 15 900 EUR - ..."
+def parse_prices(info):
+    """Returns (price_you_pay, regular_price_if_discounted).
+
+    Discounted listings have two rows: "Hind" (regular) and "Soodushind" (discount).
+    The price you pay is the discount price when there is one.
+    """
+    regular = digits(info.get("price_text"))
+    discount = digits(info.get("discount_text"))
+    if discount and (not regular or discount < regular):
+        return discount, regular
+    if regular:
+        return regular, None
+    # Backup: og:description looks like "2019, bensiin, 78 000 km, 13 750 EUR - ..."
     m = re.search(r"([\d\s\u00a0]+)\s*EUR", info.get("og_description", ""))
-    return digits(m.group(1)) if m else None
+    return (digits(m.group(1)) if m else None), None
 
 
 def listing_id(url):
@@ -92,7 +105,7 @@ def check_car(page, url, car):
             car["status"] = "unavailable"
         return "ERROR (blocked or removed) - debug files saved"
 
-    price = parse_price(info)
+    price, list_price = parse_prices(info)
     now = datetime.now(timezone.utc).isoformat(timespec="seconds")
 
     car.update(
@@ -104,6 +117,10 @@ def check_car(page, url, car):
             "fuel": info["fuel"] or car.get("fuel", ""),
             "gearbox": info["gearbox"] or car.get("gearbox", ""),
             "location": info["location"] or car.get("location", ""),
+            "body": info["body"] or car.get("body", ""),
+            "drive": info["drive"] or car.get("drive", ""),
+            "engine": info["engine"] or car.get("engine", ""),
+            "price_note": info["price_note"] or car.get("price_note", ""),
             "saved_count": digits(info["saved_count"]),
             "last_seen": now,
             "error_count": 0,
@@ -118,11 +135,17 @@ def check_car(page, url, car):
 
     car["status"] = "active"
     entries = car.setdefault("entries", [])
-    old = entries[-1]["p"] if entries else None
-    if old != price:
-        entries.append({"t": now, "p": price})
+    last = entries[-1] if entries else None
+    old = last["p"] if last else None
+    if last is None or last["p"] != price or last.get("l") != list_price:
+        entry = {"t": now, "p": price}
+        if list_price:
+            entry["l"] = list_price  # regular price, only stored while a discount is active
+        entries.append(entry)
     car["latest_price"] = price
-    return f"{price} EUR" + (f" (was {old})" if old and old != price else "")
+    car["list_price"] = list_price
+    note = f" (discount, regular {list_price})" if list_price else ""
+    return f"{price} EUR{note}" + (f" (was {old})" if old and old != price else "")
 
 
 def main():

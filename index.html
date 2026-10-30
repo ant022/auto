@@ -7,60 +7,239 @@
 <style>
   :root {
     --bg: #eef1f4; --card: #ffffff; --ink: #18212b; --muted: #66727f; --line: #d9dfe5;
-    --down: #0b7a53; --up: #c23b2a; --accent: #25536e;
+    --down: #0b7a53; --up: #c23b2a; --accent: #25536e; --btn: #25536e; --btn-ink: #ffffff;
   }
   @media (prefers-color-scheme: dark) {
     :root { --bg: #11161b; --card: #1a2128; --ink: #e8edf1; --muted: #93a0ac; --line: #2c3640;
-            --down: #4cc79a; --up: #f0806f; --accent: #7ab6d6; }
+            --down: #4cc79a; --up: #f0806f; --accent: #7ab6d6; --btn: #7ab6d6; --btn-ink: #0f1519; }
   }
   * { box-sizing: border-box; }
   body { margin: 0; background: var(--bg); color: var(--ink);
          font: 16px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
   main { max-width: 760px; margin: 0 auto; padding: 24px 16px 48px; }
   h1 { font-size: 1.5rem; margin: 0 0 4px; letter-spacing: -0.01em; }
-  .sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 20px; }
-  .car { background: var(--card); border: 1px solid var(--line); border-radius: 10px;
-         padding: 16px; margin-bottom: 14px; }
+  .sub { color: var(--muted); font-size: 0.9rem; margin-bottom: 18px; }
+
+  form.add { display: flex; gap: 8px; margin-bottom: 8px; }
+  input[type=text], input[type=password] { flex: 1; min-width: 0; padding: 10px 12px; font: inherit; color: var(--ink);
+         background: var(--card); border: 1px solid var(--line); border-radius: 8px; }
+  button { font: inherit; cursor: pointer; border: 0; border-radius: 8px; padding: 10px 16px;
+           background: var(--btn); color: var(--btn-ink); font-weight: 600; }
+  button.ghost { background: transparent; color: var(--accent); border: 1px solid var(--line); font-weight: 500; padding: 6px 12px; font-size: 0.88rem; }
+  button:disabled { opacity: 0.5; cursor: default; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  #msg { min-height: 1.4em; font-size: 0.9rem; margin-bottom: 10px; }
+  #msg.ok { color: var(--down); } #msg.bad { color: var(--up); }
+  details.settings { margin-bottom: 18px; font-size: 0.9rem; color: var(--muted); }
+  details.settings summary { cursor: pointer; }
+  details.settings .box { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px; margin-top: 8px; }
+  details.settings ol { margin: 6px 0 12px; padding-left: 20px; }
+  details.settings a { color: var(--accent); }
+  .row { display: flex; gap: 8px; margin-top: 8px; }
+
+  .car { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 16px; margin-bottom: 14px; }
   .top { display: flex; gap: 14px; align-items: flex-start; }
   .top img { width: 112px; height: 76px; object-fit: cover; border-radius: 6px; flex: none; background: var(--line); }
   .top .info { min-width: 0; flex: 1; }
   .title { font-weight: 600; font-size: 1.05rem; color: var(--ink); text-decoration: none; display: block; }
   .title:hover { text-decoration: underline; }
   .facts { color: var(--muted); font-size: 0.88rem; margin-top: 2px; }
+  .km { color: var(--ink); font-weight: 600; }
   .price-row { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin: 14px 0 6px; }
   .price { font-size: 2rem; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
   .delta { font-size: 0.95rem; font-weight: 600; font-variant-numeric: tabular-nums; }
-  .delta.down { color: var(--down); } .delta.up { color: var(--up); } .delta.flat { color: var(--muted); font-weight: 400; }
+  .down { color: var(--down); } .up { color: var(--up); } .flat { color: var(--muted); font-weight: 400; }
+  .was { color: var(--muted); text-decoration: line-through; font-weight: 400; font-size: 0.95em; }
+  .tag { font-size: 0.8rem; padding: 2px 8px; border-radius: 99px; border: 1px solid var(--down); color: var(--down); }
   .badge { font-size: 0.8rem; padding: 2px 8px; border-radius: 99px; border: 1px solid var(--up); color: var(--up); }
-  svg.chart { width: 100%; height: 130px; display: block; overflow: visible; }
+  .hist { width: 100%; border-collapse: collapse; font-size: 0.9rem; font-variant-numeric: tabular-nums; margin: 6px 0 4px; }
+  .hist td { padding: 4px 0; border-top: 1px solid var(--line); }
+  .hist td:nth-child(1) { color: var(--muted); width: 30%; }
+  .hist td:nth-child(2) { font-weight: 600; width: 40%; }
+  .hist tr.latest td:nth-child(2) { font-weight: 700; }
+  svg.chart { width: 100%; height: 120px; display: block; overflow: visible; margin-top: 8px; }
   .chart text { fill: var(--muted); font-size: 11px; }
   .chart .grid { stroke: var(--line); stroke-width: 1; }
   .chart .line { fill: none; stroke: var(--accent); stroke-width: 2; }
   .chart .dot { fill: var(--accent); }
-  .meta { color: var(--muted); font-size: 0.82rem; margin-top: 8px; }
-  .empty, .err { background: var(--card); border: 1px dashed var(--line); border-radius: 10px; padding: 20px; color: var(--muted); }
+  .foot { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 10px; }
+  .meta { color: var(--muted); font-size: 0.82rem; }
+  .pending { color: var(--muted); font-size: 0.92rem; margin-top: 10px; }
+  .empty { background: var(--card); border: 1px dashed var(--line); border-radius: 10px; padding: 20px; color: var(--muted); }
 </style>
 </head>
 <body>
 <main>
   <h1>Car price tracker</h1>
   <div class="sub" id="updated">Loading…</div>
+
+  <form class="add" id="addForm">
+    <input type="text" id="addUrl" placeholder="Paste an auto24.ee listing link" autocomplete="off" inputmode="url" aria-label="auto24 listing link">
+    <button type="submit" id="addBtn">Add car</button>
+  </form>
+  <div id="msg" role="status"></div>
+
+  <details class="settings" id="settings">
+    <summary>Saving and sync settings</summary>
+    <div class="box">
+      <p>To add or remove cars from this page, it needs permission to edit your repo. Create a token once per device:</p>
+      <ol>
+        <li>Open <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">GitHub &gt; new fine-grained token</a>.</li>
+        <li>Repository access: <b>Only select repositories</b>, and choose this repo only.</li>
+        <li>Permissions: <b>Contents: Read and write</b> and <b>Actions: Read and write</b>.</li>
+        <li>Pick an expiry, create the token, and paste it below.</li>
+      </ol>
+      <input type="password" id="tokenInput" placeholder="github_pat_…" autocomplete="off" aria-label="GitHub token">
+      <div class="row"><input type="text" id="repoInput" placeholder="owner/repo" aria-label="Repository (owner/repo)"></div>
+      <div class="row"><button type="button" id="saveSettings">Save settings</button><button type="button" class="ghost" id="clearToken">Forget token</button></div>
+      <p>The token stays in this browser only. Anyone holding it can edit this repo, so keep it private and don't commit it anywhere.</p>
+    </div>
+  </details>
+
   <div id="list"></div>
 </main>
 
 <script>
-const fmtEur = n => n.toLocaleString("et-EE").replace(/\u00a0/g, " ") + " €";
+/* ---------- helpers ---------- */
+const nf = n => Number(n).toLocaleString("et-EE").replace(/\u00a0/g, " ");
+const eur = n => nf(n) + " €";
 const fmtDate = iso => new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const store = {
+  get(k) { try { return localStorage.getItem(k) || ""; } catch (e) { return ""; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} },
+  del(k) { try { localStorage.removeItem(k); } catch (e) {} },
+};
+const b64enc = s => { let bin = ""; new TextEncoder().encode(s).forEach(x => bin += String.fromCharCode(x)); return btoa(bin); };
+const b64dec = s => new TextDecoder().decode(Uint8Array.from(atob(s.replace(/\n/g, "")), c => c.charCodeAt(0)));
+const $ = id => document.getElementById(id);
 
-function chart(entries, nowIso) {
-  const W = 600, H = 130, L = 8, R = 8, T = 10, B = 22;
+function say(text, kind) { const m = $("msg"); m.textContent = text; m.className = kind || ""; }
+
+/* ---------- repo + token ---------- */
+const BRANCH = "main";
+function detectRepo() {
+  if (location.hostname.endsWith(".github.io")) {
+    const repo = location.pathname.split("/")[1];
+    if (repo) return location.hostname.split(".")[0] + "/" + repo;
+  }
+  return "";
+}
+const getRepo = () => store.get("gh_repo") || detectRepo();
+const getToken = () => store.get("gh_token");
+
+async function gh(path, opts = {}) {
+  const r = await fetch("https://api.github.com/repos/" + getRepo() + path, {
+    ...opts,
+    headers: { Accept: "application/vnd.github+json", Authorization: "Bearer " + getToken(),
+               "Content-Type": "application/json", ...(opts.headers || {}) },
+  });
+  if (!r.ok) {
+    let detail = ""; try { detail = (await r.json()).message || ""; } catch (e) {}
+    const hint = r.status === 401 ? "Token rejected (expired or mistyped)."
+      : r.status === 403 || r.status === 404 ? "Token lacks permission for this repo (needs Contents and Actions read/write), or the repo name is wrong."
+      : "";
+    throw new Error(`GitHub said ${r.status}. ${hint} ${detail}`.trim());
+  }
+  return r.status === 204 ? null : r.json();
+}
+
+/* ---------- state ---------- */
+let config = { cars: [] }, history = { meta: {}, cars: {} };
+
+async function fetchJson(file) {
+  const repo = getRepo();
+  const bust = "?t=" + Date.now();
+  // raw.githubusercontent avoids waiting for a Pages rebuild after each commit
+  const urls = repo ? [`https://raw.githubusercontent.com/${repo}/${BRANCH}/${file}${bust}`, file + bust] : [file + bust];
+  for (const u of urls) {
+    try { const r = await fetch(u); if (r.ok) return await r.json(); } catch (e) {}
+  }
+  return null;
+}
+
+async function loadAll() {
+  const [h, c] = await Promise.all([fetchJson("car_history.json"), fetchJson("cars.json")]);
+  if (h) history = h;
+  if (c) config = c;
+  render();
+}
+
+/* ---------- editing cars.json through the GitHub API ---------- */
+async function saveConfig(mutate, message) {
+  const cur = await gh(`/contents/cars.json?ref=${BRANCH}`);
+  const cfg = JSON.parse(b64dec(cur.content));
+  cfg.cars = cfg.cars || [];
+  mutate(cfg);
+  await gh("/contents/cars.json", {
+    method: "PUT",
+    body: JSON.stringify({ message, content: b64enc(JSON.stringify(cfg, null, 2) + "\n"), sha: cur.sha, branch: BRANCH }),
+  });
+  config = cfg;
+  render();
+}
+
+function needSetup() {
+  if (getToken() && getRepo()) return false;
+  $("settings").open = true;
+  say("Add your token and repo in the settings below first.", "bad");
+  return true;
+}
+
+function listingId(text) {
+  const m = text.match(/soidukid\/(\d+)/) || text.match(/[?&]id=(\d+)/) || text.trim().match(/^(\d{5,})$/);
+  return m ? m[1] : null;
+}
+
+async function triggerCheck(quiet) {
+  try {
+    await gh("/actions/workflows/scrape.yml/dispatches", { method: "POST", body: JSON.stringify({ ref: BRANCH }) });
+    say("Price check started. Reload in a couple of minutes to see the result.", "ok");
+  } catch (e) { if (!quiet) say(e.message, "bad"); else say("Car saved, but couldn't start the check: " + e.message, "bad"); }
+}
+
+$("addForm").addEventListener("submit", async ev => {
+  ev.preventDefault();
+  const id = listingId($("addUrl").value);
+  if (!id) return say("That doesn't look like an auto24 listing link (…/soidukid/1234567).", "bad");
+  if ((config.cars || []).some(c => listingId(c.url) === id)) return say("That car is already being tracked.", "bad");
+  if (needSetup()) return;
+  $("addBtn").disabled = true; say("Saving…");
+  try {
+    await saveConfig(cfg => cfg.cars.push({ url: "https://www.auto24.ee/soidukid/" + id, note: "" }), "Add car " + id);
+    $("addUrl").value = "";
+    say("Car added. Starting the first price check…", "ok");
+    await triggerCheck(true);
+  } catch (e) { say(e.message, "bad"); }
+  $("addBtn").disabled = false;
+});
+
+async function removeCar(id) {
+  if (needSetup() || !confirm("Stop tracking this car? Its price history stays in the repo.")) return;
+  say("Removing…");
+  try { await saveConfig(cfg => { cfg.cars = cfg.cars.filter(c => listingId(c.url) !== id); }, "Remove car " + id); say("Removed.", "ok"); }
+  catch (e) { say(e.message, "bad"); }
+}
+
+/* ---------- settings ---------- */
+$("repoInput").value = getRepo();
+$("tokenInput").placeholder = getToken() ? "Token saved on this device (paste a new one to replace)" : "github_pat_…";
+$("saveSettings").onclick = () => {
+  const t = $("tokenInput").value.trim(), r = $("repoInput").value.trim();
+  if (t) store.set("gh_token", t);
+  if (r && r !== detectRepo()) store.set("gh_repo", r); else store.del("gh_repo");
+  $("tokenInput").value = ""; $("tokenInput").placeholder = getToken() ? "Token saved on this device (paste a new one to replace)" : "github_pat_…";
+  say("Settings saved.", "ok"); loadAll();
+};
+$("clearToken").onclick = () => { store.del("gh_token"); $("tokenInput").placeholder = "github_pat_…"; say("Token removed from this browser.", "ok"); render(); };
+
+/* ---------- rendering ---------- */
+function chart(entries, endIso) {
+  const W = 600, H = 120, L = 8, R = 8, T = 10, B = 22;
   const pts = entries.map(e => ({ t: new Date(e.t).getTime(), p: e.p }));
-  // extend the last price to "today" so a flat line is visible
-  const end = Math.max(new Date(nowIso).getTime(), pts[pts.length - 1].t);
+  const end = Math.max(new Date(endIso).getTime(), pts[pts.length - 1].t);
   const t0 = pts[0].t, span = Math.max(end - t0, 1);
-  const prices = pts.map(p => p.p);
-  let lo = Math.min(...prices), hi = Math.max(...prices);
+  let lo = Math.min(...pts.map(p => p.p)), hi = Math.max(...pts.map(p => p.p));
   if (lo === hi) { lo -= 500; hi += 500; }
   const x = t => L + ((t - t0) / span) * (W - L - R);
   const y = p => T + (1 - (p - lo) / (hi - lo)) * (H - T - B);
@@ -68,62 +247,81 @@ function chart(entries, nowIso) {
   for (let i = 1; i < pts.length; i++) d += ` H${x(pts[i].t)} V${y(pts[i].p)}`;
   d += ` H${x(end)}`;
   const dots = pts.map(p => `<circle class="dot" cx="${x(p.t)}" cy="${y(p.p)}" r="3.5"/>`).join("");
-  return `<svg class="chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="Price history">
-    <line class="grid" x1="${L}" x2="${W - R}" y1="${y(hi)}" y2="${y(hi)}"/>
-    <line class="grid" x1="${L}" x2="${W - R}" y1="${y(lo)}" y2="${y(lo)}"/>
-    <text x="${L}" y="${y(hi) - 3}">${fmtEur(Math.round(hi))}</text>
-    <text x="${L}" y="${y(lo) + 12}">${fmtEur(Math.round(lo))}</text>
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="Price history chart">
+    <line class="grid" x1="${L}" x2="${W - R}" y1="${y(hi)}" y2="${y(hi)}"/><line class="grid" x1="${L}" x2="${W - R}" y1="${y(lo)}" y2="${y(lo)}"/>
+    <text x="${L}" y="${y(hi) - 3}">${eur(Math.round(hi))}</text><text x="${L}" y="${y(lo) + 12}">${eur(Math.round(lo))}</text>
     <path class="line" d="${d}"/>${dots}
-    <text x="${L}" y="${H - 4}">${fmtDate(pts[0].t)}</text>
-    <text x="${W - R}" y="${H - 4}" text-anchor="end">${fmtDate(end)}</text>
-  </svg>`;
+    <text x="${L}" y="${H - 4}">${fmtDate(pts[0].t)}</text><text x="${W - R}" y="${H - 4}" text-anchor="end">${fmtDate(end)}</text></svg>`;
 }
 
-function card(car, nowIso) {
-  const e = car.entries || [];
-  const facts = [car.year, car.mileage_km ? car.mileage_km.toLocaleString("et-EE").replace(/\u00a0/g, " ") + " km" : "",
-                 car.fuel, car.gearbox, car.location].filter(Boolean).map(esc).join(" · ");
-  let price = "—", delta = "";
-  if (e.length) {
-    const cur = e[e.length - 1].p, first = e[0].p, diff = cur - first;
-    price = fmtEur(cur);
-    delta = diff === 0 ? `<span class="delta flat">no change yet</span>`
-      : `<span class="delta ${diff < 0 ? "down" : "up"}">${diff < 0 ? "▼" : "▲"} ${fmtEur(Math.abs(diff))} since ${fmtDate(e[0].t)}</span>`;
+const arrow = diff => diff < 0 ? `<span class="down">▼ ${eur(Math.abs(diff))}</span>` : `<span class="up">▲ ${eur(diff)}</span>`;
+
+function card(cfgCar) {
+  const id = listingId(cfgCar.url);
+  const car = history.cars?.[id];
+  const link = `https://www.auto24.ee/soidukid/${id}`;
+  const canEdit = !!getToken();
+  const removeBtn = canEdit ? `<button class="ghost" data-remove="${id}">Remove</button>` : "";
+
+  if (!car || !car.title) {
+    return `<article class="car"><a class="title" href="${link}" target="_blank" rel="noopener">${esc(cfgCar.note || "Listing " + id)}</a>
+      <div class="pending">Waiting for the first price check. It runs daily, or use “Check prices now” above the list.</div>
+      <div class="foot"><span class="meta">Listing ${id}</span>${removeBtn}</div></article>`;
   }
-  const bad = car.status === "unavailable" ? `<span class="badge">listing unavailable</span>`
-            : car.status === "no_price" ? `<span class="badge">no price shown</span>`
-            : (car.error_count > 0 ? `<span class="badge">last check failed</span>` : "");
-  const meta = [car.last_seen ? "Last seen " + fmtDate(car.last_seen) : "", car.saved_count ? `saved by ${car.saved_count}` : ""]
-               .filter(Boolean).join(" · ");
+
+  const e = car.entries || [];
+  const km = car.mileage_km ? `<span class="km">${nf(car.mileage_km)} km</span>` : "";
+  const facts = [car.year ? esc(car.year) : "", km, esc(car.fuel), esc(car.gearbox), esc(car.body), esc(car.drive), esc(car.engine), esc(car.location)]
+    .filter(Boolean).join(" · ");
+
+  let priceHtml = `<span class="price">—</span>`, histHtml = "";
+  if (e.length) {
+    const cur = e[e.length - 1];
+    let delta;
+    if (e.length === 1) delta = `<span class="delta flat">no change since first check, ${fmtDate(cur.t)}</span>`;
+    else { const diff = cur.p - e[e.length - 2].p; delta = `<span class="delta">${arrow(diff)} <span class="flat">on ${fmtDate(cur.t)}</span></span>`; }
+    priceHtml = `<span class="price">${eur(cur.p)}</span>` + (cur.l ? `<span class="was">${eur(cur.l)}</span><span class="tag">discount</span>` : "") + delta;
+
+    // latest price plus the two before it
+    const rows = [];
+    for (let i = e.length - 1; i >= Math.max(0, e.length - 3); i--) {
+      const change = i > 0 ? arrow(e[i].p - e[i - 1].p) : `<span class="flat">first seen</span>`;
+      rows.push(`<tr class="${i === e.length - 1 ? "latest" : ""}"><td>${fmtDate(e[i].t)}</td><td>${eur(e[i].p)}${e[i].l ? ` <span class="was">${eur(e[i].l)}</span>` : ""}</td><td>${change}</td></tr>`);
+    }
+    histHtml = `<table class="hist" aria-label="Latest prices">${rows.join("")}</table>`;
+    if (e.length > 1) {
+      const total = e[e.length - 1].p - e[0].p;
+      histHtml += `<div class="meta">Since ${fmtDate(e[0].t)}: ${total === 0 ? "back at the starting price" : arrow(total)}</div>`;
+    }
+  }
+
+  const badge = car.status === "unavailable" ? `<span class="badge">listing unavailable</span>`
+    : car.status === "no_price" ? `<span class="badge">no price shown</span>`
+    : car.error_count > 0 ? `<span class="badge">last check failed</span>` : "";
+  const meta = [car.last_seen ? "Checked " + fmtDate(car.last_seen) : "", car.price_note ? esc(car.price_note.replace("(käibemaksu ei lisandu)", "").replace("sisaldab registreerimistasu", "registration fee included").replace(/\s+/g, " ").trim()) : "",
+                car.saved_count ? `saved by ${car.saved_count}` : ""].filter(Boolean).join(" · ");
+
   return `<article class="car">
-    <div class="top">
-      ${car.img ? `<img src="${esc(car.img)}" alt="" loading="lazy">` : ""}
-      <div class="info">
-        <a class="title" href="${esc(car.url)}" target="_blank" rel="noopener">${esc(car.title || car.note || "Listing " + car.id)}</a>
-        <div class="facts">${facts}</div>
-      </div>
-    </div>
-    <div class="price-row"><span class="price">${price}</span>${delta}${bad}</div>
-    ${e.length ? chart(e, nowIso) : ""}
-    <div class="meta">${esc(meta)}</div>
-  </article>`;
+    <div class="top">${car.img ? `<img src="${esc(car.img)}" alt="" loading="lazy">` : ""}
+      <div class="info"><a class="title" href="${esc(car.url || link)}" target="_blank" rel="noopener">${esc(car.title)}</a>
+      <div class="facts">${facts}</div></div></div>
+    <div class="price-row">${priceHtml}${badge}</div>
+    ${histHtml}
+    ${e.length ? chart(e, history.meta?.generated_at || new Date().toISOString()) : ""}
+    <div class="foot"><span class="meta">${meta}</span>${removeBtn}</div></article>`;
 }
 
-fetch("car_history.json?v=" + Date.now())
-  .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
-  .then(data => {
-    const cars = Object.values(data.cars || {});
-    const gen = data.meta?.generated_at;
-    document.getElementById("updated").textContent = gen ? "Last check: " + new Date(gen).toLocaleString("en-GB") : "";
-    document.getElementById("list").innerHTML = cars.length
-      ? cars.map(c => card(c, gen || new Date().toISOString())).join("")
-      : `<div class="empty">No cars yet. Add listing URLs to cars.json and run the workflow.</div>`;
-  })
-  .catch(() => {
-    document.getElementById("updated").textContent = "";
-    document.getElementById("list").innerHTML =
-      `<div class="err">No data yet. Run the "Daily car price check" workflow once from the Actions tab, then reload this page.</div>`;
-  });
+function render() {
+  const gen = history.meta?.generated_at;
+  $("updated").innerHTML = (gen ? "Last check: " + new Date(gen).toLocaleString("en-GB") : "No check has run yet")
+    + (getToken() ? ` &nbsp;<button class="ghost" id="checkNow">Check prices now</button>` : "");
+  const cars = config.cars || [];
+  $("list").innerHTML = cars.length ? cars.map(card).join("") : `<div class="empty">No cars yet. Paste a listing link above to start tracking.</div>`;
+  document.querySelectorAll("[data-remove]").forEach(b => b.onclick = () => removeCar(b.dataset.remove));
+  const cn = $("checkNow"); if (cn) cn.onclick = () => triggerCheck(false);
+}
+
+loadAll();
 </script>
 </body>
 </html>
