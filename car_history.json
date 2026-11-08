@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-11-08T11:58:00+00:00"
+    "generated_at": "2026-11-08T18:12:23+00:00"
   },
   "cars": {
     "3462642": {
@@ -13,7 +13,7 @@
       ],
       "url": "https://www.auto24.ee/soidukid/3462642",
       "note": "",
-      "error_count": 11,
+      "error_count": 12,
       "last_error": "HTTP 403, blocked=True, page has no listing title",
       "title": "Skoda Superb Combi L&K 4x4 2.0 206kW",
       "img": "https://img13.img-bcg.eu/h30/8d9d2a/s1/206995373.jpg",
@@ -85,7 +85,7 @@
       "engine": "2.0 140kW",
       "price_note": "KM 0% (käibemaksu ei lisandu)",
       "saved_count": 4,
-      "last_seen": "2026-11-08T11:57:24+00:00",
+      "last_seen": "2026-11-08T18:11:15+00:00",
       "error_count": 0,
       "last_error": "",
       "status": "active",
@@ -119,7 +119,7 @@
       "engine": "2.0 140kW",
       "price_note": "KM 0% (käibemaksu ei lisandu)",
       "saved_count": 3,
-      "last_seen": "2026-11-08T11:57:32+00:00",
+      "last_seen": "2026-11-08T18:11:27+00:00",
       "error_count": 0,
       "last_error": "",
       "status": "active",
@@ -148,7 +148,7 @@
       "engine": "2.0 125kW",
       "price_note": "KM 0% (käibemaksu ei lisandu)",
       "saved_count": 15,
-      "last_seen": "2026-11-08T11:57:43+00:00",
+      "last_seen": "2026-11-08T18:11:37+00:00",
       "error_count": 0,
       "last_error": "",
       "status": "active",
@@ -177,12 +177,100 @@
       "engine": "2.0 140kW",
       "price_note": "KM 0% (käibemaksu ei lisandu)",
       "saved_count": 4,
-      "last_seen": "2026-11-08T11:57:53+00:00",
+      "last_seen": "2026-11-08T18:11:48+00:00",
       "error_count": 0,
       "last_error": "",
       "status": "active",
       "latest_price": 17000,
       "list_price": null
+    },
+    "4367906": {
+      "id": "4367906",
+      "entries": [
+        {
+          "t": "2026-11-08T18:11:59+00:00",
+          "p": 15000
+        }
+      ],
+      "url": "https://www.auto24.ee/soidukid/4367906",
+      "note": "",
+      "title": "BMW 520 d xDrive Luxury Line 2.0 R4 140kW",
+      "img": "https://img13.img-bcg.eu/h30/878ed3/s1/207079206.jpg",
+      "year": "2016",
+      "mileage_km": 147700,
+      "fuel": "diisel",
+      "gearbox": "automaat (Steptronic)",
+      "location": "Tallinn, Eesti",
+      "body": "sedaan",
+      "drive": "nelikvedu",
+      "engine": "2.0 140kW",
+      "price_note": "sisaldab KM 24% · sisaldab registreerimistasu",
+      "saved_count": 2,
+      "last_seen": "2026-11-08T18:11:59+00:00",
+      "error_count": 0,
+      "last_error": "",
+      "status": "active",
+      "latest_price": 15000,
+      "list_price": null
+    },
+    "4368412": {
+      "id": "4368412",
+      "entries": [
+        {
+          "t": "2026-11-08T18:12:09+00:00",
+          "p": 15900
+        }
+      ],
+      "url": "https://www.auto24.ee/soidukid/4368412",
+      "note": "",
+      "title": "BMW 530 X-Drive Luxury 3.0 190kW",
+      "img": "https://img13.img-bcg.eu/h30/8e5be9/s1/207073689.jpg",
+      "year": "2016",
+      "mileage_km": 188700,
+      "fuel": "diisel",
+      "gearbox": "automaat",
+      "location": "Tartu, Eesti",
+      "body": "universaal",
+      "drive": "nelikvedu",
+      "engine": "3.0 190kW",
+      "price_note": "KM 0% (käibemaksu ei lisandu)",
+      "saved_count": 2,
+      "last_seen": "2026-11-08T18:12:09+00:00",
+      "error_count": 0,
+      "last_error": "",
+      "status": "active",
+      "latest_price": 15900,
+      "list_price": null
+    },
+    "4340349": {
+      "id": "4340349",
+      "entries": [
+        {
+          "t": "2026-11-08T18:12:18+00:00",
+          "p": 15990,
+          "l": 16900
+        }
+      ],
+      "url": "https://www.auto24.ee/soidukid/4340349",
+      "note": "",
+      "title": "BMW 520 2.0 140kW",
+      "img": "https://img13.img-bcg.eu/h30/3b1bab/s1/206942877.jpg",
+      "year": "2017",
+      "mileage_km": 174800,
+      "fuel": "diisel",
+      "gearbox": "automaat",
+      "location": "Võru, Eesti",
+      "body": "universaal",
+      "drive": "tagavedu",
+      "engine": "2.0 140kW",
+      "price_note": "KM 0% (käibemaksu ei lisandu) · sisaldab registreerimistasu",
+      "saved_count": 4,
+      "last_seen": "2026-11-08T18:12:18+00:00",
+      "error_count": 0,
+      "last_error": "",
+      "status": "active",
+      "latest_price": 15990,
+      "list_price": 16900
     }
   }
 }
