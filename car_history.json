@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-11-07T11:45:46+00:00"
+    "generated_at": "2026-11-08T11:58:00+00:00"
   },
   "cars": {
     "3462642": {
@@ -13,7 +13,7 @@
       ],
       "url": "https://www.auto24.ee/soidukid/3462642",
       "note": "",
-      "error_count": 10,
+      "error_count": 11,
       "last_error": "HTTP 403, blocked=True, page has no listing title",
       "title": "Skoda Superb Combi L&K 4x4 2.0 206kW",
       "img": "https://img13.img-bcg.eu/h30/8d9d2a/s1/206995373.jpg",
@@ -85,7 +85,7 @@
       "engine": "2.0 140kW",
       "price_note": "KM 0% (käibemaksu ei lisandu)",
       "saved_count": 4,
-      "last_seen": "2026-11-07T11:45:12+00:00",
+      "last_seen": "2026-11-08T11:57:24+00:00",
       "error_count": 0,
       "last_error": "",
       "status": "active",
@@ -119,7 +119,7 @@
       "engine": "2.0 140kW",
       "price_note": "KM 0% (käibemaksu ei lisandu)",
       "saved_count": 3,
-      "last_seen": "2026-11-07T11:45:21+00:00",
+      "last_seen": "2026-11-08T11:57:32+00:00",
       "error_count": 0,
       "last_error": "",
       "status": "active",
@@ -148,7 +148,7 @@
       "engine": "2.0 125kW",
       "price_note": "KM 0% (käibemaksu ei lisandu)",
       "saved_count": 15,
-      "last_seen": "2026-11-07T11:45:31+00:00",
+      "last_seen": "2026-11-08T11:57:43+00:00",
       "error_count": 0,
       "last_error": "",
       "status": "active",
@@ -177,7 +177,7 @@
       "engine": "2.0 140kW",
       "price_note": "KM 0% (käibemaksu ei lisandu)",
       "saved_count": 4,
-      "last_seen": "2026-11-07T11:45:41+00:00",
+      "last_seen": "2026-11-08T11:57:53+00:00",
       "error_count": 0,
       "last_error": "",
       "status": "active",
