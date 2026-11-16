@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generated_at": "2026-11-15T12:47:04+00:00"
+    "generated_at": "2026-11-16T13:42:09+00:00"
   },
   "cars": {
     "3462642": {
@@ -13,7 +13,7 @@
       ],
       "url": "https://www.auto24.ee/soidukid/3462642",
       "note": "",
-      "error_count": 22,
+      "error_count": 23,
       "last_error": "HTTP 403, blocked=True, page has no listing title",
       "title": "Skoda Superb Combi L&K 4x4 2.0 206kW",
       "img": "https://img13.img-bcg.eu/h30/8d9d2a/s1/206995373.jpg",
@@ -90,7 +90,7 @@
       "engine": "2.0 140kW",
       "price_note": "KM 0% (käibemaksu ei lisandu)",
       "saved_count": 6,
-      "last_seen": "2026-11-15T12:45:56+00:00",
+      "last_seen": "2026-11-16T13:41:05+00:00",
       "error_count": 0,
       "last_error": "",
       "status": "active",
@@ -124,7 +124,7 @@
       "engine": "2.0 140kW",
       "price_note": "KM 0% (käibemaksu ei lisandu)",
       "saved_count": 3,
-      "last_seen": "2026-11-15T12:46:08+00:00",
+      "last_seen": "2026-11-16T13:41:16+00:00",
       "error_count": 0,
       "last_error": "",
       "status": "active",
@@ -153,7 +153,7 @@
       "engine": "2.0 125kW",
       "price_note": "KM 0% (käibemaksu ei lisandu)",
       "saved_count": 14,
-      "last_seen": "2026-11-15T12:46:18+00:00",
+      "last_seen": "2026-11-16T13:41:25+00:00",
       "error_count": 0,
       "last_error": "",
       "status": "active",
@@ -182,7 +182,7 @@
       "engine": "2.0 140kW",
       "price_note": "KM 0% (käibemaksu ei lisandu)",
       "saved_count": 5,
-      "last_seen": "2026-11-15T12:46:27+00:00",
+      "last_seen": "2026-11-16T13:41:33+00:00",
       "error_count": 0,
       "last_error": "",
       "status": "active",
@@ -212,8 +212,8 @@
       "price_note": "sisaldab KM 24% · sisaldab registreerimistasu",
       "saved_count": 3,
       "last_seen": "2026-11-15T12:46:36+00:00",
-      "error_count": 0,
-      "last_error": "",
+      "error_count": 1,
+      "last_error": "HTTP 410, blocked=False, page has no listing title",
       "status": "active",
       "latest_price": 15000,
       "list_price": null
@@ -240,7 +240,7 @@
       "engine": "3.0 190kW",
       "price_note": "KM 0% (käibemaksu ei lisandu)",
       "saved_count": 2,
-      "last_seen": "2026-11-15T12:46:48+00:00",
+      "last_seen": "2026-11-16T13:41:51+00:00",
       "error_count": 0,
       "last_error": "",
       "status": "active",
@@ -270,7 +270,7 @@
       "engine": "2.0 140kW",
       "price_note": "KM 0% (käibemaksu ei lisandu) · sisaldab registreerimistasu",
       "saved_count": 4,
-      "last_seen": "2026-11-15T12:46:56+00:00",
+      "last_seen": "2026-11-16T13:42:03+00:00",
       "error_count": 0,
       "last_error": "",
       "status": "active",
